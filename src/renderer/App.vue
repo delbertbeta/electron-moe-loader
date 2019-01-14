@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <function-bar></function-bar>
-    <div @click="openMask" class="container" :class="{'mask-open': maskOpen}">
+    <div class="container" :class="{'mask-open': maskOpen}">
       <logo-search></logo-search>
       <pic-list class="pic-list"></pic-list>
       <download-manager class="download-manager"></download-manager>

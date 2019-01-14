@@ -1,15 +1,25 @@
 <template>
   <div class="wrapper">
-    <div class="empty">
+    <div v-if="imgs.length !== 0" class="empty">
       <i class="material-icons download-icon">hourglass_empty</i>
       <p>Nothing here...</p>
     </div>
+    <div class="downloads">>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'download-manager'
+  name: 'download-manager',
+  data() {
+    return {
+      imgs: [{
+        name: '东方测试图片2333',
+        size: 23123,
+        downloaded: 0
+      }]
+    }
+  }
 }
 </script>
 
