@@ -14,7 +14,7 @@
             <div v-if="value.finished" class="progress-text">已完成</div>
             <div v-else-if="value.error" class="progress-text">{{value.error}}</div>
             <div v-else-if="!value.started">等待开始</div>
-            <div v-else class="progress-text">{{(value.downloaded / value.size * 100).toFixed(1) + '%'}}</div>
+            <div v-else class="progress-text">{{filesize(value.downloaded)}} / {{filesize(value.size)}}</div>
             <div class="progress-bar"
                 :class="{error: value.error, finish: value.finished}"
                 :style="{width: value.finished ? '100%' : value.downloaded / value.size * 100 + '%'}"></div>
@@ -48,7 +48,7 @@ export default {
       this.downloadNum = this.downloadNum + 1
       arg.downloaded = 0
       arg.size = 1
-      arg.started = true
+      arg.started = false
       this.$set(this.downloadList, arg.id, arg)
     })
     electron.ipcRenderer.on('downloaderProgress', (event, arg) => {
@@ -56,9 +56,13 @@ export default {
     })
     electron.ipcRenderer.on('downloaderStart', (event, arg) => {
       this.$set(this.downloadList[arg.id], 'size', arg.total)
+      this.$set(this.downloadList[arg.id], 'started', true)
     })
     electron.ipcRenderer.on('downloaderFinished', (event, arg) => {
       this.$set(this.downloadList[arg.id], 'finished', true)
+    })
+    electron.ipcRenderer.on('downloaderFailed', (event, arg) => {
+      this.$set(this.downloadList[arg.id], 'error', arg.message)
     })
   },
   methods: {
@@ -161,7 +165,7 @@ export default {
 }
 
 .progress-bar.finish {
-  background-color: rgb(122, 219, 128);
+  background-color: rgb(72, 187, 80);
 }
 
 .filesize {

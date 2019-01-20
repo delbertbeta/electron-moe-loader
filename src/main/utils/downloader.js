@@ -43,10 +43,21 @@ const init = (mainWindow) => {
       if (axios.isCancel(e)) {
         console.log('Request canceled: ' + id)
       } else {
-        console.log(e)
+        let message = ''
+        if (e.response) {
+          switch (e.response.status) {
+            case 404:
+              message = '请求的文件不存在'
+              break
+            default:
+              message = '未知错误'
+          }
+        } else {
+          message = '无法连接到服务器'
+        }
         mainWindow.webContents.send('downloaderFailed', {
           id: id,
-          message: e
+          message: message
         })
       }
     })

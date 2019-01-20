@@ -48,7 +48,7 @@ export default {
     // }
     openMask () {
       // this.maskOpen = !this.maskOpen
-      this.$refs['downloadManager'].addTask('firefox.exe', 'https://download.mozilla.org/?product=firefox-latest-ssl&os=win64&lang=zh-CN')
+      this.$refs['downloadManager'].addTask('firefox.exe', 'https://app.delbertbeta.cc/dfsdfsdfsdf')
     }
   }
 }
