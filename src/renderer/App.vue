@@ -2,20 +2,22 @@
   <div id="app">
     <function-bar></function-bar>
     <div class="container" :class="{'mask-open': maskOpen}">
-      <logo-search></logo-search>
+      <div class="logo-wrapper">
+        <div class="logo">MoeLoader
+          <i class="setting-button icon material-icons" @click="openMask">settings</i>
+        </div>
+        <logo-search></logo-search>
+      </div>
       <pic-list class="pic-list"></pic-list>
-      <download-manager class="download-manager"></download-manager>
-      <!-- <button @click="debug">debug</button> -->
+      <download-manager ref="downloadManager" class="download-manager"></download-manager>
     </div>
     <transition name="fade">
-    <div v-if="maskOpen"  class="mask">
-      <div class="internal">
-        <div class="pixiv">pixiv
-          <div>用户</div>
-          <div>热门</div>
+      <div v-if="maskOpen" class="mask">
+        <div class="internal">
+          <Settings></Settings>
+          <!-- <SiteChooser></SiteChooser> -->
         </div>
       </div>
-    </div>
     </transition>
   </div>
 </template>
@@ -25,12 +27,14 @@ import functionBar from './components/functionBar'
 import logoSearch from './components/logoSearch'
 import downloadManager from './components/downloadManager'
 import picList from './components/picList'
+import Settings from './components/Settings'
+import SiteChooser from './components/SiteChooser'
 
 // import proxy from './utils/proxy'
 
 export default {
   name: 'electron-moe-loader',
-  components: { functionBar, logoSearch, downloadManager, picList },
+  components: { functionBar, logoSearch, downloadManager, picList, Settings, SiteChooser },
   data () {
     return {
       maskOpen: false
@@ -43,7 +47,8 @@ export default {
     //   })
     // }
     openMask () {
-      this.maskOpen = !this.maskOpen
+      // this.maskOpen = !this.maskOpen
+      this.$refs['downloadManager'].addTask('firefox.exe', 'https://download.mozilla.org/?product=firefox-latest-ssl&os=win64&lang=zh-CN')
     }
   }
 }
@@ -70,6 +75,18 @@ export default {
   filter: blur(0.5rem);
 }
 
+.logo-wrapper {
+  position: absolute;
+  left: 5%;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.logo {
+  font-family: "Poiret One";
+  font-size: 62px;
+}
+
 .mask {
   position: absolute;
   top: 0;
@@ -77,24 +94,14 @@ export default {
   height: 100%;
   width: 100%;
   z-index: 1;
-  pointer-events: none;
   background-color: rgba(0, 0, 0, 0.6);
   overflow: hidden;
 }
 
-.pixiv {
-  margin: 64px;
-  font-size: 32px;
-  font-weight: 100;
-}
-
-.pixiv div{
-  font-size: 22px;
-  line-height: 32px;
-}
-
-.pixiv div:first-child {
-  margin-top: 16px;
+.setting-button {
+  margin-left: 12px;
+  color: #333333;
+  cursor: pointer;
 }
 
 /* transitions */
@@ -212,5 +219,26 @@ body {
 
   /* Support for IE. */
   font-feature-settings: "liga";
+}
+
+::-webkit-scrollbar
+{
+    width: 4px;
+    height: 4px;
+    background-color: #F5F5F5;
+}
+ 
+/*定义滚动条轨道 内阴影+圆角*/
+::-webkit-scrollbar-track
+{
+    border-radius: 2px;
+    background-color: white;
+}
+ 
+/*定义滑块 内阴影+圆角*/
+::-webkit-scrollbar-thumb
+{
+    border-radius: 2px;
+    background-color: #aaaaaa;
 }
 </style>

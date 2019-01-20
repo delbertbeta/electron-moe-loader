@@ -54,7 +54,9 @@
   },
   "dependencies": {
     "axios": "^0.18.0",
+    "filesize": "^4.0.0",
     "fs-extra": "^7.0.1",
+    "hat": "^0.0.3",
     "puppeteer-core": "^1.10.0",
     "vue": "^2.5.16",
     "vue-electron": "^1.0.6",
